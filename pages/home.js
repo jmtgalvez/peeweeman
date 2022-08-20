@@ -16,7 +16,7 @@ export default function Home() {
             let encryptedAccounts = CryptoAES.encrypt(JSON.stringify({ accounts }), `${user.username}@${user.password}`).toString();
             localStorage.setItem(`peeweeman-${user.username}@${user.password}`, encryptedAccounts);
 
-            axios.put(`/api/data/${user.id}`, { data: encryptedAccounts })
+            axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/data/${user.id}`, { data: encryptedAccounts })
                 .then( res => {
                     return res.data.metadata;
                 })
@@ -24,7 +24,7 @@ export default function Home() {
     }
 
     function fetchAccounts(user) {
-        return axios.get(`/api/data/${user.id}`)
+        return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/data/${user.id}`)
             .then( res => {
                 return res.data.metadata;
             })

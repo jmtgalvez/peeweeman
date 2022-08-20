@@ -14,7 +14,7 @@ export default function Login() {
     const router = useRouter();
     
     function createUser(credentials) {
-        return axios.post(`/api/user/create`, credentials)
+        return axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/create`, credentials)
             .then( res => {
                 return res.data.id;
             });
@@ -33,7 +33,7 @@ export default function Login() {
             password: hashedPW,
         }
 
-        axios.get(`/api/login/${credentials.username}`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/login/${credentials.username}`)
             .then( async res => {
                 if ( res.data.length === 0 ){
                     credentials['id'] = await createUser(credentials)
