@@ -16,6 +16,7 @@ export default function Login() {
     function createUser(credentials) {
         return axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/create`, credentials)
             .then( res => {
+                console.log(res);
                 return res.data.id;
             });
     }
@@ -24,8 +25,6 @@ export default function Login() {
         ev.preventDefault();
         
         const password = passwordRef.current.value;
-
-        // const bcrypt = dcodeIO.bcrypt;
         const hashedPW = bcrypt.hashSync(password, 10);
 
         const credentials = {
@@ -39,7 +38,6 @@ export default function Login() {
                     credentials['id'] = await createUser(credentials)
                 } else {
                     [...res.data].forEach( async user => {
-                        // if ( credentials.password === user.password ) {
                         if ( bcrypt.compareSync(password, user.password)) {
                             credentials['id'] = user.id;
                             credentials['accounts'] = user.metadata;
@@ -52,7 +50,7 @@ export default function Login() {
                 if (credentials.id) {
                     setUser({...credentials, password});
                     if (keepLoggedInRef.current.checked)
-                        localStorage.setItem('peeweeman-user', JSON.stringify({ ...credentials, password}));
+                        localStorage.setItem('peeweeman-user', JSON.stringify({ id: credentials.id, username: credentials.username, password}));
 
                     router.push('/home');
                 }

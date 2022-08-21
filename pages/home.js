@@ -18,6 +18,7 @@ export default function Home() {
 
             axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/data/${user.id}`, { data: encryptedAccounts })
                 .then( res => {
+                    console.log(res);
                     return res.data.metadata;
                 })
         }
@@ -26,6 +27,7 @@ export default function Home() {
     function fetchAccounts(user) {
         return axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/data/${user.id}`)
             .then( res => {
+                console.log(res);
                 return res.data.metadata;
             })
     }
@@ -38,6 +40,7 @@ export default function Home() {
             const credentials = user || JSON.parse(userData);
             fetchAccounts(credentials)
                 .then( res => {
+                    console.log(res);
                     credentials['accounts'] = res;
                     if (!user) setUser(credentials);
                     console.log(credentials);
