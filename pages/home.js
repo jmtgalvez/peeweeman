@@ -14,7 +14,7 @@ export default function Home() {
     function saveAccount() {
         if (user) {
             let encryptedAccounts = CryptoAES.encrypt(JSON.stringify({ accounts }), `${user.username}@${user.password}`).toString();
-            localStorage.setItem(`peeweeman-${user.username}@${user.password}`, encryptedAccounts);
+            // localStorage.setItem(`peeweeman-${user.username}@${user.password}`, encryptedAccounts);
 
             axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/data/${user.id}`, { data: encryptedAccounts })
                 .then( res => {
